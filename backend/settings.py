@@ -17,17 +17,38 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+def to_bool(param):
+    if type(param) is str:
+        if 'false' in param.lower():
+            return False
+        else:
+            return True
+    elif param is None:
+        return False
+    elif type(param) is bool:
+        return param
+    else:
+        assert False, "not handled"
+
+_SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE THIS!!!!") 
+_DEBUG = os.getenv('DEBUG', True)
+_ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', ['*'])
+_DB_NAME =  os.getenv('DB_DATABASE', 'Triest$mydjango'),
+_DB_HOST = 
+_DB_PORT = 
+_DB_PASSWORD =
+_DB_DATABASE =
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE THIS!!!!") 
+SECRET_KEY = _SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = to_bool(_DEBUG) 
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', ['*'])
+ALLOWED_HOSTS = _ALLOWED_HOSTS
 
 
 # Application definition
@@ -79,11 +100,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_DATABASE'),
-        'HOST': os.getenv('DB_HOST'),
-        'USER': os.getenv('DB_USER'),
-        'PORT': os.getenv('DB_PORT'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'NAME': _DB_NAME
+        'HOST': os.getenv('DB_HOST', 'Triest.mysql.pythonanywhere-services.com'),
+        'USER': os.getenv('DB_USER', 'Triest'),
+        'PORT': os.getenv('DB_PORT', '3306'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '#########'),
         'OPTIONS': {
             'sql_mode': 'STRICT_TRANS_TABLES',
         }
